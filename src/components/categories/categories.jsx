@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { active, _category } from "../../constants";
 import { getCategories } from "../../helpers/helper";
 
 export default function Categories({ selectedCategory, setSelectedCategory, setSearchApp }) {
@@ -16,7 +17,7 @@ export default function Categories({ selectedCategory, setSelectedCategory, setS
     }
 
     const getIsActive = (category) => {
-        return selectedCategory === category ? 'active' : ''
+        return selectedCategory === category ? active : ''
     }
 
     return (
@@ -29,7 +30,7 @@ export default function Categories({ selectedCategory, setSelectedCategory, setS
                             <li key={idx}
                               onClick={handleCategoryClick(category)}
                               className={getIsActive(category)}>
-                                <Link to={`category/${category}`}>{category}</Link>
+                                <Link to={`${_category}/${category}`}>{category}</Link>
                             </li>
                         )
                     }) 

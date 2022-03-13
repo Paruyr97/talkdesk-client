@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { getfilteredDataBySearch } from "../../helpers/helper";
 
-export default function Search({ setFilteredDataBySearch,searchApp,setSearchApp }) {
+export default function Search({ setFilteredDataBySearch, searchApp, setSearchApp }) {
 
     const [timer, setTimer] = useState(null);
 

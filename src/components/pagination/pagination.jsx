@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BASE_URL } from "../../constants";
+import { active, BASE_URL, decrement, increment, pagesInfo } from "../../constants";
 import { useEffect, useState } from "react";
 
 const disabled = {'pointerEvents': 'none'};
@@ -14,7 +14,7 @@ export default function Pagination({ currentPage, setCurrentPage }) {
     }, [])
 
     const getPagesInfo = () => {
-        fetch(`${BASE_URL}pagesInfo`).then(res => res.json()).then(data => {
+        fetch(`${BASE_URL}${pagesInfo}`).then(res => res.json()).then(data => {
             setLastPage(data.dataLength);
             setPagesCount(data.pagesCount);
         });
@@ -31,9 +31,9 @@ export default function Pagination({ currentPage, setCurrentPage }) {
 
     const changePage = (value) => () => {
         if (currentPage === value) { return; }
-        else if (value === 'dec') {
+        else if (value === decrement) {
             return currentPage > 1 && setCurrentPage(currentPage - 1);
-        } else if (value === 'inc') {
+        } else if (value === increment) {
             return currentPage < lastPage && setCurrentPage(currentPage + 1);
         }
         value >= 1 && value <= lastPage && setCurrentPage(value);
@@ -41,21 +41,19 @@ export default function Pagination({ currentPage, setCurrentPage }) {
 
     return (
         <ul className="pagination">
-            <li onClick={changePage('dec')}  style={currentPage === 1 ? disabled : {}}>
-                <Link
-                   
-                    to={`/${currentPage - 1 || currentPage}`}>&lt;</Link>
+            <li onClick={changePage(decrement)}  style={currentPage === 1 ? disabled : {}}>
+                <Link to={`/${currentPage - 1 || currentPage}`}>&lt;</Link>
             </li>
             { pages.map((page, idx) => {
                 return (
                     <li key={idx}
                         onClick={changePage(page)} 
-                        className={currentPage === page ? 'active' : ''}>
+                        className={currentPage === page ? active : ''}>
                         <Link to={`/${page}`}>{ page }</Link>
                     </li>
                 )
             })}
-            <li onClick={changePage('inc')}>
+            <li onClick={changePage(increment)}>
                 <Link 
                     style={currentPage === lastPage ? disabled : {}}
                     to={`/${currentPage === lastPage ? currentPage : currentPage + 1}`}>&gt;
