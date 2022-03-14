@@ -1,29 +1,13 @@
 import { Link } from "react-router-dom";
-import { active, BASE_URL, decrement, increment, pagesInfo } from "../../constants";
-import { useEffect, useState } from "react";
+import { active, decrement, increment, pagesCount } from "../../constants";
 
 const disabled = {'pointerEvents': 'none'};
 
-export default function Pagination({ currentPage, setCurrentPage }) {
-
-    const [lastPage, setLastPage] = useState(null);
-    const [pagesCount, setPagesCount] = useState(null);
-
-    useEffect(() => {
-        getPagesInfo();
-    }, [])
-
-    const getPagesInfo = () => {
-        fetch(`${BASE_URL}${pagesInfo}`).then(res => res.json()).then(data => {
-            setLastPage(data.dataLength);
-            setPagesCount(data.pagesCount);
-        });
-    }
-
-    const pages = Array(pagesCount).fill().map((_, i) => {
-        if (currentPage === lastPage) {
+export default function Pagination({ currentPage, setCurrentPage, dataLength }) {
+    const pages = Array(dataLength < pagesCount ? dataLength : pagesCount).fill().map((_, i) => {
+        if (currentPage === dataLength) {
             return currentPage + i - 2;
-        } else if (currentPage === lastPage - 2 || currentPage === lastPage - 1) {
+        } else if (currentPage === dataLength - 2 || currentPage === dataLength - 1) {
             return currentPage + i - 1;
         }
         return currentPage + i;
@@ -34,9 +18,9 @@ export default function Pagination({ currentPage, setCurrentPage }) {
         else if (value === decrement) {
             return currentPage > 1 && setCurrentPage(currentPage - 1);
         } else if (value === increment) {
-            return currentPage < lastPage && setCurrentPage(currentPage + 1);
+            return currentPage < dataLength && setCurrentPage(currentPage + 1);
         }
-        value >= 1 && value <= lastPage && setCurrentPage(value);
+        value >= 1 && value <= dataLength && setCurrentPage(value);
     }
 
     return (
@@ -55,8 +39,8 @@ export default function Pagination({ currentPage, setCurrentPage }) {
             })}
             <li onClick={changePage(increment)}>
                 <Link 
-                    style={currentPage === lastPage ? disabled : {}}
-                    to={`/${currentPage === lastPage ? currentPage : currentPage + 1}`}>&gt;
+                    style={currentPage === dataLength ? disabled : {}}
+                    to={`/${currentPage === dataLength ? currentPage : currentPage + 1}`}>&gt;
                 </Link>
             </li>
         </ul>

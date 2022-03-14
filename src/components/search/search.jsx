@@ -1,22 +1,13 @@
-import { useState } from "react"
-import { getfilteredDataBySearch } from "../../helpers/helper";
+import { filterDataBySearch } from "../../helpers/helper";
 
-export default function Search({ setFilteredDataBySearch, searchApp, setSearchApp }) {
-
-    const [timer, setTimer] = useState(null);
+export default function Search({ searchApp, setSearchApp, currentData, setFilteredData }) {
 
     const handleInputChange = ({ target: { value }}) => {
-        setSearchApp(value.trim());
-
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        setTimer(setTimeout(() => {
-            value.trim() && getfilteredDataBySearch(value).then(setFilteredDataBySearch);
-        }, 500));
+        const trimValue = value.trim();
+        setSearchApp(trimValue);
+        setFilteredData(filterDataBySearch(currentData, trimValue));
     }
-
+       
     return (
         <header>
           <input type="text"

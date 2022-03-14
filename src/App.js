@@ -1,6 +1,4 @@
-import './App.css';
 import Test from './components/data';
-
 
 function App() {
   return (

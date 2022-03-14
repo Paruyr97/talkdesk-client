@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { active, _category } from "../../constants";
 import { getCategories } from "../../helpers/helper";
 
-export default function Categories({ selectedCategory, setSelectedCategory, setSearchApp }) {
+export default function Categories({ selectedCategory, setSelectedCategory, setSearchApp, setFilteredData, setDataLength }) {
 
     const [categories, setCategories] = useState([]);
 
@@ -13,6 +13,13 @@ export default function Categories({ selectedCategory, setSelectedCategory, setS
 
     const handleCategoryClick = (category) => () => {
         setSearchApp('');
+        setDataLength(0);
+        setFilteredData([]);
+        if (category === selectedCategory) {
+            setSelectedCategory('');
+            window.location.pathname = '/';
+            return;
+        }
         setSelectedCategory(category);
     }
 
