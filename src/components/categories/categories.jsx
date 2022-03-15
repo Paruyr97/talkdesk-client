@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { active, _category } from "../../constants";
-import { getCategories } from "../../helpers/helper";
+import { activateCategory, getCategories } from "../../helpers/helper";
 
 export default function Categories({ selectedCategory, setSelectedCategory, setSearchApp, setFilteredData, setDataLength }) {
 
@@ -13,15 +13,8 @@ export default function Categories({ selectedCategory, setSelectedCategory, setS
     }, []);
 
     useEffect(() => {
-        activateCategory();
+        activateCategory(location);
     }, [categories]);
-
-    const activateCategory = () => {
-        if (!location.pathname.includes(_category)) { return; }
-        
-        let category = location.pathname.split('/')[2];
-        document.querySelector(`#${category}`)?.classList.add('active');
-    }
 
     const handleCategoryClick = (category) => () => {
         setSearchApp('');
@@ -29,7 +22,7 @@ export default function Categories({ selectedCategory, setSelectedCategory, setS
         setFilteredData([]);
         if (category === selectedCategory) {
             setSelectedCategory('');
-            window.location.pathname = '/';
+            window.location.replace('/');
             return;
         }
         setSelectedCategory(category);

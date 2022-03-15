@@ -18,3 +18,10 @@ export const getDataByCategory = (category) => {
 export const filterDataBySearch = (data, value) => {
     return data.filter(({ name }) => name.toLowerCase().includes(value));
 }
+
+export const activateCategory = (location) => {
+    if (!location.pathname.includes(_category)) { return; }
+    
+    let category = location.pathname.split('/')[2];
+    document.querySelector(`#${category}`)?.classList.add('active');
+}
