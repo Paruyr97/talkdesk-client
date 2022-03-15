@@ -1,15 +1,27 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { active, _category } from "../../constants";
 import { getCategories } from "../../helpers/helper";
 
 export default function Categories({ selectedCategory, setSelectedCategory, setSearchApp, setFilteredData, setDataLength }) {
 
     const [categories, setCategories] = useState([]);
+    const location = useLocation();
 
     useEffect(() => {
         getCategories().then(setCategories);
     }, []);
+
+    useEffect(() => {
+        activateCategory();
+    }, [categories]);
+
+    const activateCategory = () => {
+        if (!location.pathname.includes(_category)) { return; }
+        
+        let category = location.pathname.split('/')[2];
+        document.querySelector(`#${category}`)?.classList.add('active');
+    }
 
     const handleCategoryClick = (category) => () => {
         setSearchApp('');
@@ -35,6 +47,7 @@ export default function Categories({ selectedCategory, setSelectedCategory, setS
                     categories.map((category, idx) => {
                         return (
                             <li key={idx}
+                                id={category}
                               onClick={handleCategoryClick(category)}
                               className={getIsActive(category)}>
                                 <Link to={`${_category}/${category}`}>{category}</Link>
