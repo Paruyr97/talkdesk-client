@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import "./data.css";
 import Categories from "../categories/categories";
 import Items from "../items/items";
@@ -9,9 +8,8 @@ import { getDataByCategory, getDataByPage } from "../../helpers/helper";
 import { pagesCount } from "../../constants";
 
 export default function App() {
-  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(
-    Number(location.pathname.slice(1)) || 1
+    Number(window.location.pathname.slice(1)) || 1
   );
   const [searchApp, setSearchApp] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -24,10 +22,10 @@ export default function App() {
   }, [selectedCategory, currentPage]);
 
   const loadData = () => {
-    if (location.pathname.includes("category")) {
-      getDataByCategory(location.pathname).then(setCurrentData);
-    } else if (Number(location.pathname.slice(1)) || !selectedCategory) {
-      getDataByPage(location.pathname === "/" ? "/1" : location.pathname).then(
+    if (window.location.pathname.includes("category")) {
+      getDataByCategory(window.location.pathname).then(setCurrentData);
+    } else if (Number(window.location.pathname.slice(1)) || !selectedCategory) {
+      getDataByPage(window.location.pathname === "/" ? "/1" : window.location.pathname).then(
         (result) => {
           setDataLength(result.dataLength);
           setCurrentData(result.data);

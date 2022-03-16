@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { active, _category } from "../../constants";
 import { activateCategory, getCategories } from "../../helpers/helper";
 
@@ -11,15 +11,14 @@ export default function Categories({
   setDataLength,
 }) {
   const [categories, setCategories] = useState([]);
-  const location = useLocation();
 
   useEffect(() => {
     getCategories().then(setCategories);
   }, []);
 
   useEffect(() => {
-    activateCategory(location);
-  }, [categories, location]);
+    activateCategory(window.location);
+  }, [categories, window.location]);
 
   const handleCategoryClick = (category) => () => {
     setSearchApp("");
