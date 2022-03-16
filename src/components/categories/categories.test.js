@@ -3,7 +3,6 @@ import Categories from "./categories";
 
 test('test app component', () => {
     render(<Categories />);
-    const categories = screen.getByText(/Categories/i);
-    console.log('-------');
-    expect(categories).toBeInTheDocument();
+    expect(screen.getByText('Categories')).toBeInTheDocument();
+    expect(screen.getByRole('list')).toBeInTheDocument();
 });

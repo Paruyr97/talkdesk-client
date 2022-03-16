@@ -7,9 +7,8 @@ export default function Search({
   setFilteredData,
 }) {
   const handleInputChange = ({ target: { value } }) => {
-    const trimValue = value.trim();
-    setSearchApp(trimValue);
-    setFilteredData(filterDataBySearch(currentData, trimValue));
+    setSearchApp(value);
+    setFilteredData(filterDataBySearch(currentData, value.trim()));
   };
 
   return (
