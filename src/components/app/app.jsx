@@ -52,7 +52,7 @@ export default function App() {
           setFilteredData={setFilteredData}
           filteredData={filteredData}
         />
-        <Items data={filteredData.length ? filteredData : currentData} />
+        <Items data={searchApp ? filteredData : currentData} />
         {dataLength > pagesCount && !searchApp ? (
           <Pagination
             currentPage={currentPage}

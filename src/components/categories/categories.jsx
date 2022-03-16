@@ -21,6 +21,7 @@ export default function Categories({
   }, [categories, window.location]);
 
   const handleCategoryClick = (category) => () => {
+    document.querySelectorAll('.active')[0].classList.remove(active);
     setSearchApp("");
     setDataLength(0);
     setFilteredData([]);
