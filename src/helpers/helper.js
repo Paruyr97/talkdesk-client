@@ -13,18 +13,22 @@ export const getDataByCategory = (category) => {
 };
 
 export const filterDataBySearch = (data, value) => {
-  return data.filter(({ name }) => name.toLowerCase().includes(value));
+  return data.filter(({ name }) =>
+    name.toLowerCase().includes(value.toLowerCase())
+  );
 };
 
-export const activateCategory = (location) => {
-  if (!location.pathname.includes(_category)) {
+export const activateCategory = (path) => {
+  if (!path.includes(_category)) {
     return;
   }
 
-  let category = location.pathname.split("/")[2];
+  path = path.replaceAll("%20", " ");
+
+  let category = path.split("/")[2];
   document.querySelector(`#${category}`)?.classList.add("active");
 };
 
-export const removeActiveClass = () => {
-  document.getElementsByClassName(active)[0].classList.remove(active);
-}
+export const removeActiveClass = (container) => {
+  container.querySelector(`.${active}`)?.classList.remove(active);
+};

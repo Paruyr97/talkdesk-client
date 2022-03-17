@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { active, _category } from "../../constants";
 import { activateCategory, getCategories, removeActiveClass } from "../../helpers/helper";
@@ -10,6 +10,7 @@ export default function Categories({
   setFilteredData,
   setDataLength,
 }) {
+  const listRef = useRef(null);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -17,11 +18,11 @@ export default function Categories({
   }, []);
 
   useEffect(() => {
-    activateCategory(window.location);
-  }, [categories, window.location]);
+    activateCategory(window.location.pathname);
+  }, [categories]);
 
   const handleCategoryClick = (category) => () => {
-    removeActiveClass();
+    removeActiveClass(listRef.current);
     setSearchApp("");
     setDataLength(0);
     setFilteredData([]);
@@ -40,7 +41,7 @@ export default function Categories({
   return (
     <nav className="nav-categories">
       <h2>Categories</h2>
-      <ul className="nav-menu">
+      <ul className="nav-menu" ref={listRef}>
         {categories.map((category, idx) => {
           return (
             <li

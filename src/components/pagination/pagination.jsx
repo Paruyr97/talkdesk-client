@@ -14,6 +14,7 @@ export default function Pagination({
       if (currentPage === dataLength) {
         return currentPage + i - 2;
       } else if (
+        currentPage === dataLength - 1  ||
         currentPage === dataLength - 2 
       ) {
         return currentPage + i - 1;
