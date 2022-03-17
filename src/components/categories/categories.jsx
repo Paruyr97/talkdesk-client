@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { active, _category } from "../../constants";
-import { activateCategory, getCategories } from "../../helpers/helper";
+import { activateCategory, getCategories, removeActiveClass } from "../../helpers/helper";
 
 export default function Categories({
   selectedCategory,
@@ -21,7 +21,7 @@ export default function Categories({
   }, [categories, window.location]);
 
   const handleCategoryClick = (category) => () => {
-    document.querySelectorAll('.active')[0].classList.remove(active);
+    removeActiveClass();
     setSearchApp("");
     setDataLength(0);
     setFilteredData([]);
