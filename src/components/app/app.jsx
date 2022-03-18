@@ -5,7 +5,6 @@ import Items from "../items/items";
 import Pagination from "../pagination/pagination";
 import Search from "../search/search";
 import { getDataByCategory, getDataByPage } from "../../helpers/helper";
-import { pagesCount } from "../../constants";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(
@@ -15,7 +14,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentData, setCurrentData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [dataLength, setDataLength] = useState(0);
+  const [pagesCount, setPagesCount] = useState(0);
 
   useEffect(() => {
     loadData();
@@ -27,7 +26,7 @@ export default function App() {
     } else if (Number(window.location.pathname.slice(1)) || !selectedCategory) {
       getDataByPage(window.location.pathname === "/" ? "/1" : window.location.pathname).then(
         (result) => {
-          setDataLength(result.dataLength);
+          setPagesCount(result.dataLength);
           setCurrentData(result.data);
         }
       );
@@ -41,7 +40,7 @@ export default function App() {
         setSelectedCategory={setSelectedCategory}
         setSearchApp={setSearchApp}
         setFilteredData={setFilteredData}
-        setDataLength={setDataLength}
+        setPagesCount={setPagesCount}
       />
       <section className="apps-list">
         <Search
@@ -53,11 +52,11 @@ export default function App() {
           filteredData={filteredData}
         />
         <Items data={searchApp ? filteredData : currentData} />
-        {dataLength > pagesCount && !searchApp ? (
+        {pagesCount > 1 && !searchApp ? (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            dataLength={dataLength}
+            pagesCount={pagesCount}
           />
         ) : (
           ""

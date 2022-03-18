@@ -1,26 +1,40 @@
 import { Link } from "react-router-dom";
-import { active, decrement, increment, pagesCount } from "../../constants";
-
-const disabled = { pointerEvents: "none" };
+import { useState, useEffect } from "react";
+import {
+  active,
+  decrement,
+  disabled,
+  increment,
+  maxPagesCount,
+} from "../../constants";
 
 export default function Pagination({
   currentPage,
   setCurrentPage,
-  dataLength,
+  pagesCount,
 }) {
-  const pages = Array(dataLength < pagesCount ? dataLength : pagesCount)
-    .fill()
-    .map((_, i) => {
-      if (currentPage === dataLength) {
-        return currentPage + i - 2;
-      } else if (
-        currentPage === dataLength - 1  ||
-        currentPage === dataLength - 2 
-      ) {
-        return currentPage + i - 1;
-      }
-      return currentPage + i;
-    });
+  const [pages, setPages] = useState([]);
+
+  useEffect(() => {
+    setPages(getPages());
+  }, [currentPage]);
+
+  const getPages = () => {
+    const size = pagesCount < maxPagesCount ? pagesCount : maxPagesCount;
+    const pages = Array(size)
+      .fill()
+      .map((_, i) => {
+        if (currentPage === 1) {
+          return currentPage + i;
+        } else if (currentPage === pagesCount) {
+          return currentPage + (i + 1) - size;
+        } else {
+          return currentPage + (i - 1);
+        }
+      });
+
+    return pages;
+  };
 
   const changePage = (value) => () => {
     if (currentPage === value) {
@@ -28,9 +42,9 @@ export default function Pagination({
     } else if (value === decrement) {
       return currentPage > 1 && setCurrentPage(currentPage - 1);
     } else if (value === increment) {
-      return currentPage < dataLength && setCurrentPage(currentPage + 1);
+      return currentPage < pagesCount && setCurrentPage(currentPage + 1);
     }
-    value >= 1 && value <= dataLength && setCurrentPage(value);
+    value >= 1 && value <= pagesCount && setCurrentPage(value);
   };
 
   return (
@@ -54,10 +68,10 @@ export default function Pagination({
       })}
       <li
         onClick={changePage(increment)}
-        style={currentPage === dataLength ? disabled : {}}
+        style={currentPage === pagesCount ? disabled : {}}
       >
         <Link
-          to={`/${currentPage === dataLength ? currentPage : currentPage + 1}`}
+          to={`/${currentPage === pagesCount ? currentPage : currentPage + 1}`}
         >
           &gt;
         </Link>

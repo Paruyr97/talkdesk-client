@@ -8,7 +8,7 @@ export default function Categories({
   setSelectedCategory,
   setSearchApp,
   setFilteredData,
-  setDataLength,
+  setPagesCount,
 }) {
   const listRef = useRef(null);
   const [categories, setCategories] = useState([]);
@@ -24,7 +24,7 @@ export default function Categories({
   const handleCategoryClick = (category) => () => {
     removeActiveClass(listRef.current);
     setSearchApp("");
-    setDataLength(0);
+    setPagesCount(0);
     setFilteredData([]);
     if (category === selectedCategory) {
       setSelectedCategory("");
