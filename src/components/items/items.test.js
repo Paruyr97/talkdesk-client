@@ -3,7 +3,7 @@ import { notFound } from "../../constants";
 import Items from "./items";
 
 describe("Item component test", () => {
-  test("render Item wit empty data", () => {
+  test("render Item with empty data", () => {
     render(<Items data={[]} />);
     expect(screen.getByText(notFound)).toBeInTheDocument();
   });

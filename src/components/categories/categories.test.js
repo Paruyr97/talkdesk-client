@@ -3,7 +3,7 @@ import { _categories } from "../../constants";
 import Categories from "./categories";
 
 describe('Category component test', () => {
-    test('Category renders', () => {
+    test('render Category', () => {
         render(<Categories />);
         expect(screen.getByText(_categories)).toBeInTheDocument();
         expect(screen.getByRole('list')).toBeInTheDocument();
