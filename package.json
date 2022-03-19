@@ -1,5 +1,5 @@
 {
-  "name": "todo-app",
+  "name": "talkdesk-task",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -37,6 +37,7 @@
     ]
   },
   "devDependencies": {
-    "jest-watch-typeahead": "^0.6.5"
+    "jest-watch-typeahead": "^0.6.5",
+    "prop-types": "^15.8.1"
   }
 }

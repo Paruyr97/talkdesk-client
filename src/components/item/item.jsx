@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Item = ({ item }) => {
   return (
     <li>
@@ -36,3 +38,13 @@ const Item = ({ item }) => {
 };
 
 export default Item;
+
+Item.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    subscriptions: PropTypes.arrayOf(PropTypes.object),
+  }),
+};

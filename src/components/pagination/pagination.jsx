@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
+
 import {
   active,
   decrement,
@@ -28,9 +30,9 @@ export default function Pagination({
           return currentPage + i;
         } else if (currentPage === pagesCount) {
           return currentPage + (i + 1) - size;
-        } else {
-          return currentPage + (i - 1);
         }
+
+        return currentPage + (i - 1);
       });
 
     return pages;
@@ -79,3 +81,9 @@ export default function Pagination({
     </ul>
   );
 }
+
+Pagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  pagesCount: PropTypes.number.isRequired,
+};

@@ -1,12 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { active, _category } from "../../constants";
-import { activateCategory, getCategories, removeActiveClass } from "../../helpers/helper";
+import PropTypes from 'prop-types';
+
+import { active, _categories, _category } from "../../constants";
+import {
+  activateCategory,
+  getCategories,
+  removeActiveClass,
+} from "../../helpers/helper";
 
 export default function Categories({
   selectedCategory,
   setSelectedCategory,
-  setSearchApp,
+  setSearchValue,
   setFilteredData,
   setPagesCount,
 }) {
@@ -23,7 +29,7 @@ export default function Categories({
 
   const handleCategoryClick = (category) => () => {
     removeActiveClass(listRef.current);
-    setSearchApp("");
+    setSearchValue("");
     setPagesCount(0);
     setFilteredData([]);
     if (category === selectedCategory) {
@@ -40,7 +46,7 @@ export default function Categories({
 
   return (
     <nav className="nav-categories">
-      <h2>Categories</h2>
+      <h2>{_categories}</h2>
       <ul className="nav-menu" ref={listRef}>
         {categories.map((category, idx) => {
           return (
@@ -58,3 +64,11 @@ export default function Categories({
     </nav>
   );
 }
+
+Categories.propTypes = {
+  selectedCategory: PropTypes.string.isRequired,
+  setSelectedCategory: PropTypes.func.isRequired,
+  setSearchValue: PropTypes.func.isRequired,
+  setFilteredData: PropTypes.func.isRequired,
+  setPagesCount: PropTypes.func.isRequired,
+};

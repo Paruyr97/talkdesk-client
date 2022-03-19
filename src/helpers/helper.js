@@ -1,7 +1,7 @@
-import { BASE_URL, _category, categories, active } from "../constants";
+import { BASE_URL, _category, _categories, active } from "../constants";
 
 export const getCategories = () => {
-  return fetch(`${BASE_URL}/${categories}`).then((res) => res.json());
+  return fetch(`${BASE_URL}/${_categories}`).then((res) => res.json());
 };
 
 export const getDataByPage = (page) => {
@@ -18,12 +18,14 @@ export const filterDataBySearch = (data, value) => {
   );
 };
 
+export const normalizedPath = (path) => path.replaceAll("%20", " ");
+
 export const activateCategory = (path) => {
   if (!path.includes(_category)) {
     return;
   }
 
-  path = path.replaceAll("%20", " ");
+  path = normalizedPath(path);
 
   let category = path.split("/")[2];
   document.querySelector(`#${category}`)?.classList.add("active");

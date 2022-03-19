@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import "./data.css";
+
+import "./app.css";
 import Categories from "../categories/categories";
 import Items from "../items/items";
 import Pagination from "../pagination/pagination";
@@ -10,7 +11,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState(
     Number(window.location.pathname.slice(1)) || 1
   );
-  const [searchApp, setSearchApp] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentData, setCurrentData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -24,12 +25,12 @@ export default function App() {
     if (window.location.pathname.includes("category")) {
       getDataByCategory(window.location.pathname).then(setCurrentData);
     } else if (Number(window.location.pathname.slice(1)) || !selectedCategory) {
-      getDataByPage(window.location.pathname === "/" ? "/1" : window.location.pathname).then(
-        (result) => {
-          setPagesCount(result.dataLength);
-          setCurrentData(result.data);
-        }
-      );
+      getDataByPage(
+        window.location.pathname === "/" ? "/1" : window.location.pathname
+      ).then((result) => {
+        setPagesCount(result.pagesCount);
+        setCurrentData(result.data);
+      });
     }
   };
 
@@ -38,21 +39,19 @@ export default function App() {
       <Categories
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        setSearchApp={setSearchApp}
+        setSearchValue={setSearchValue}
         setFilteredData={setFilteredData}
         setPagesCount={setPagesCount}
       />
       <section className="apps-list">
         <Search
           currentData={currentData}
-          setCurrentData={setCurrentData}
-          searchApp={searchApp}
-          setSearchApp={setSearchApp}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
           setFilteredData={setFilteredData}
-          filteredData={filteredData}
         />
-        <Items data={searchApp ? filteredData : currentData} />
-        {pagesCount > 1 && !searchApp ? (
+        <Items data={searchValue ? filteredData : currentData} />
+        {pagesCount > 1 && !searchValue ? (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
